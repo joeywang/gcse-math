@@ -14,6 +14,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 const QuestionCard = ({ question, onNext }) => {
@@ -23,6 +24,10 @@ const QuestionCard = ({ question, onNext }) => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+
+  const bgColor = useColorModeValue('white', 'gray.700')
+  const headerBgColor = useColorModeValue('brand.50', 'gray.600')
+  const headerTextColor = useColorModeValue('brand.600', 'white')
 
   useEffect(() => {
     setUserAnswer(Array.isArray(question.answer) ? Array(question.answer.length).fill('') : '');
@@ -65,9 +70,9 @@ const QuestionCard = ({ question, onNext }) => {
   };
 
   return (
-    <Card maxW="xl" m="auto" boxShadow="lg" borderRadius="lg">
-      <CardHeader bg="brand.50" borderTopRadius="lg">
-        <Heading size="md" color="brand.600">Question {question.id}</Heading>
+    <Card maxW="xl" m="auto" boxShadow="lg" borderRadius="lg" bg={bgColor}>
+      <CardHeader bg={headerBgColor} borderTopRadius="lg">
+        <Heading size="md" color={headerTextColor}>Question {question.id}</Heading>
       </CardHeader>
       <CardBody>
         <VStack spacing={4} align="stretch">

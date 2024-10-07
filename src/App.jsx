@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Heading, VStack } from '@chakra-ui/react';
+import { Box, Heading, VStack, useColorModeValue } from '@chakra-ui/react';
 import QuestionCard from './components/QuestionCard';
+import DarkModeToggle from './components/DarkModeToggle';
 import quizData from './data/quadraticSequences.json';
 
 const App = () => {
@@ -15,10 +16,14 @@ const App = () => {
     }
   };
 
+  const bgColor = useColorModeValue('gray.50', 'gray.900')
+  const textColor = useColorModeValue('gray.800', 'white')
+
   return (
-    <Box maxWidth="800px" margin="auto" padding={8}>
+    <Box maxWidth="800px" margin="auto" padding={8} minHeight="100vh" bg={bgColor}>
+      <DarkModeToggle />
       <VStack spacing={8}>
-        <Heading as="h1" size="xl" color="brand.600">
+        <Heading as="h1" size="xl" color={textColor}>
           {quizData.quizTitle}
         </Heading>
         <QuestionCard 
