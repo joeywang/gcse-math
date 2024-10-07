@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -23,6 +23,13 @@ const QuestionCard = ({ question, onNext }) => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
+  // Reset state when question changes
+  useEffect(() => {
+    setUserAnswer(Array.isArray(question.answer) ? Array(question.answer.length).fill('') : '');
+    setIsAnswered(false);
+    setIsCorrect(false);
+  }, [question]);
+
   const handleInputChange = (index, value) => {
     if (Array.isArray(userAnswer)) {
       const newAnswer = [...userAnswer];
@@ -42,6 +49,11 @@ const QuestionCard = ({ question, onNext }) => {
     }
     setIsCorrect(correct);
     setIsAnswered(true);
+  };
+
+  const handleNext = () => {
+    onNext();
+    // We don't need to reset state here as it will be handled by the useEffect hook
   };
 
   return (
@@ -109,7 +121,7 @@ const QuestionCard = ({ question, onNext }) => {
               </AlertDescription>
             </Alert>
             <Text fontSize="sm" mb={4}>{question.explanation}</Text>
-            <Button onClick={onNext} colorScheme="brand" w="full">
+            <Button onClick={handleNext} colorScheme="brand" w="full">
               Next Question
             </Button>
           </Box>
