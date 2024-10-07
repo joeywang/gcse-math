@@ -22,13 +22,22 @@ const QuestionCard = ({ question, onNext }) => {
   );
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
-  // Reset state when question changes
   useEffect(() => {
     setUserAnswer(Array.isArray(question.answer) ? Array(question.answer.length).fill('') : '');
     setIsAnswered(false);
     setIsCorrect(false);
+    setIsSubmitDisabled(true);
   }, [question]);
+
+  useEffect(() => {
+    // Check if all answers are filled
+    const allAnswersFilled = Array.isArray(userAnswer)
+      ? userAnswer.every(answer => answer.trim() !== '')
+      : userAnswer.trim() !== '';
+    setIsSubmitDisabled(!allAnswersFilled);
+  }, [userAnswer]);
 
   const handleInputChange = (index, value) => {
     if (Array.isArray(userAnswer)) {
@@ -53,7 +62,6 @@ const QuestionCard = ({ question, onNext }) => {
 
   const handleNext = () => {
     onNext();
-    // We don't need to reset state here as it will be handled by the useEffect hook
   };
 
   return (
@@ -94,7 +102,12 @@ const QuestionCard = ({ question, onNext }) => {
       </CardBody>
       <CardFooter flexDirection="column">
         {!isAnswered ? (
-          <Button onClick={checkAnswer} colorScheme="brand" w="full">
+          <Button 
+            onClick={checkAnswer} 
+            colorScheme="brand" 
+            w="full"
+            isDisabled={isSubmitDisabled}
+          >
             Submit Answer
           </Button>
         ) : (
