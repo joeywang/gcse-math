@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import { VStack, Heading } from '@chakra-ui/react';
+import { VStack, Heading, Text, Spinner } from '@chakra-ui/react';
 import QuestionCard from './QuestionCard';
-import iterationQuestions from '../data/iteration.json';
-import quadraticSequences from '../data/quadraticSequences.json';
+import { useQuestions } from '../services/questionLoader';
 
 const QuizComponent = ({ topic }) => {
-  const quizData = [
-    iterationQuestions,
-    quadraticSequences,
-  ]
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const questions = quizData[Math.round(Math.random()*10) % 2].questions;
+  const { questions, isLoading, error } = useQuestions(topic);
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -20,6 +15,18 @@ const QuizComponent = ({ topic }) => {
       console.log("Quiz finished!");
     }
   };
+
+  if (isLoading) {
+    return <Spinner size="xl" />;
+  }
+
+  if (error) {
+    return <Text color="red.500">{error}</Text>;
+  }
+
+  if (questions.length === 0) {
+    return <Text>No questions available for this topic.</Text>;
+  }
 
   return (
     <VStack spacing={8}>
