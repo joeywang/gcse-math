@@ -15,14 +15,13 @@ import {
   AlertTitle,
   AlertDescription,
   useColorModeValue,
+  Divider,
 } from '@chakra-ui/react';
 
 const QuestionCard = ({ question, onNext }) => {
-  const [userAnswer, setUserAnswer] = useState(
-    Array.isArray(question.answer) ? Array(question.answer.length).fill('') : ''
-  );
+  const [userAnswers, setUserAnswers] = useState([]);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrect, setIsCorrect] = useState([]);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const bgColor = useColorModeValue('white', 'gray.700')
@@ -30,36 +29,39 @@ const QuestionCard = ({ question, onNext }) => {
   const headerTextColor = useColorModeValue('brand.600', 'white')
 
   useEffect(() => {
-    setUserAnswer(Array.isArray(question.answer) ? Array(question.answer.length).fill('') : '');
+    if (question.parts) {
+      setUserAnswers(question.parts.map(() => ''));
+    } else {
+      setUserAnswers(Array.isArray(question.answer) ? Array(question.answer.length).fill('') : ['']);
+    }
     setIsAnswered(false);
-    setIsCorrect(false);
+    setIsCorrect([]);
     setIsSubmitDisabled(true);
   }, [question]);
 
   useEffect(() => {
-    // Check if all answers are filled
-    const allAnswersFilled = Array.isArray(userAnswer)
-      ? userAnswer.every(answer => answer.trim() !== '')
-      : userAnswer.trim() !== '';
+    const allAnswersFilled = userAnswers.every(answer => answer.trim() !== '');
     setIsSubmitDisabled(!allAnswersFilled);
-  }, [userAnswer]);
+  }, [userAnswers]);
 
   const handleInputChange = (index, value) => {
-    if (Array.isArray(userAnswer)) {
-      const newAnswer = [...userAnswer];
-      newAnswer[index] = value;
-      setUserAnswer(newAnswer);
-    } else {
-      setUserAnswer(value);
-    }
+    const newAnswers = [...userAnswers];
+    newAnswers[index] = value;
+    setUserAnswers(newAnswers);
   };
 
   const checkAnswer = () => {
     let correct;
-    if (Array.isArray(question.answer)) {
-      correct = JSON.stringify(userAnswer) === JSON.stringify(question.answer);
+    if (question.parts) {
+      correct = question.parts.map((part, index) => 
+        userAnswers[index].toString().toLowerCase() === part.answer.toString().toLowerCase()
+      );
+    } else if (Array.isArray(question.answer)) {
+      correct = question.answer.map((ans, index) => 
+        userAnswers[index].toString().toLowerCase() === ans.toString().toLowerCase()
+      );
     } else {
-      correct = userAnswer.toString() === question.answer.toString();
+      correct = [userAnswers[0].toString().toLowerCase() === question.answer.toString().toLowerCase()];
     }
     setIsCorrect(correct);
     setIsAnswered(true);
@@ -72,7 +74,7 @@ const QuestionCard = ({ question, onNext }) => {
   return (
     <Card maxW="xl" m="auto" boxShadow="lg" borderRadius="lg" bg={bgColor}>
       <CardHeader bg={headerBgColor} borderTopRadius="lg">
-        <Heading size="md" color={headerTextColor}>Question {question.id}</Heading>
+        <Heading size="md" color={headerTextColor}>Question {question.number}</Heading>
       </CardHeader>
       <CardBody>
         <VStack spacing={4} align="stretch">
@@ -85,12 +87,24 @@ const QuestionCard = ({ question, onNext }) => {
           {question.nthTerm && (
             <Text fontWeight="semibold">nth term: {question.nthTerm}</Text>
           )}
-          {Array.isArray(question.answer) ? (
+          {question.parts ? (
+            question.parts.map((part, index) => (
+              <Box key={index}>
+                <Text mb={2}>{part.text}</Text>
+                <Input
+                  placeholder={`Answer for part ${index + 1}`}
+                  value={userAnswers[index]}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  isDisabled={isAnswered}
+                />
+              </Box>
+            ))
+          ) : Array.isArray(question.answer) ? (
             question.answer.map((_, index) => (
               <Input
                 key={index}
                 placeholder={`Answer ${index + 1}`}
-                value={userAnswer[index]}
+                value={userAnswers[index]}
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 isDisabled={isAnswered}
               />
@@ -98,7 +112,7 @@ const QuestionCard = ({ question, onNext }) => {
           ) : (
             <Input
               placeholder="Your answer"
-              value={userAnswer}
+              value={userAnswers[0]}
               onChange={(e) => handleInputChange(0, e.target.value)}
               isDisabled={isAnswered}
             />
@@ -117,28 +131,58 @@ const QuestionCard = ({ question, onNext }) => {
           </Button>
         ) : (
           <Box w="full">
-            <Alert
-              status={isCorrect ? "success" : "error"}
-              variant="subtle"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              textAlign="center"
-              borderRadius="md"
-              mb={4}
-            >
-              <AlertIcon boxSize="40px" mr={0} />
-              <AlertTitle mt={4} mb={1} fontSize="lg">
-                {isCorrect ? "Correct!" : "Incorrect"}
-              </AlertTitle>
-              <AlertDescription maxWidth="sm">
-                {isCorrect 
-                  ? "Great job! You've got it right." 
-                  : `The correct answer is: ${Array.isArray(question.answer) ? question.answer.join(', ') : question.answer}`
-                }
-              </AlertDescription>
-            </Alert>
-            <Text fontSize="sm" mb={4}>{question.explanation}</Text>
+            {question.parts ? (
+              question.parts.map((part, index) => (
+                <Box key={index} mb={4}>
+                  <Alert
+                    status={isCorrect[index] ? "success" : "error"}
+                    variant="subtle"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    textAlign="center"
+                    borderRadius="md"
+                    mb={2}
+                  >
+                    <AlertIcon boxSize="40px" mr={0} />
+                    <AlertTitle mt={4} mb={1} fontSize="lg">
+                      Part {index + 1}: {isCorrect[index] ? "Correct!" : "Incorrect"}
+                    </AlertTitle>
+                    <AlertDescription maxWidth="sm">
+                      {isCorrect[index] 
+                        ? "Great job! You've got it right." 
+                        : `The correct answer is: ${part.answer}`
+                      }
+                    </AlertDescription>
+                  </Alert>
+                  <Text fontSize="sm">{part.explanation}</Text>
+                  {index < question.parts.length - 1 && <Divider my={2} />}
+                </Box>
+              ))
+            ) : (
+              <Alert
+                status={isCorrect[0] ? "success" : "error"}
+                variant="subtle"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                textAlign="center"
+                borderRadius="md"
+                mb={4}
+              >
+                <AlertIcon boxSize="40px" mr={0} />
+                <AlertTitle mt={4} mb={1} fontSize="lg">
+                  {isCorrect[0] ? "Correct!" : "Incorrect"}
+                </AlertTitle>
+                <AlertDescription maxWidth="sm">
+                  {isCorrect[0] 
+                    ? "Great job! You've got it right." 
+                    : `The correct answer is: ${Array.isArray(question.answer) ? question.answer.join(', ') : question.answer}`
+                  }
+                </AlertDescription>
+              </Alert>
+            )}
+            {question.explanation && <Text fontSize="sm" mb={4}>{question.explanation}</Text>}
             <Button onClick={handleNext} colorScheme="brand" w="full">
               Next Question
             </Button>
