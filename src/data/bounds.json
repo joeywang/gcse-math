@@ -25,13 +25,17 @@
           "text": "A rectangle has a length of 21cm, to the nearest cm, and a width of 5.3cm, to the nearest mm. Work out the upper bound for the perimeter of the rectangle.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "cm"
+          "answerUnit": "cm",
+          "answer": "53.7",
+          "explanation": "21 cm to the nearest cm gives 20.5 ≤ length < 21.5.\n5.3 cm to the nearest mm gives 5.25 ≤ width < 5.35.\nThe perimeter is largest when both sides are largest:\nUB = 2 × (21.5 + 5.35) = 2 × 26.85 = 53.7 cm"
         },
         {
           "text": "Work out the lower bound for the area of the rectangle.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "cm²"
+          "answerUnit": "cm²",
+          "answer": "107.625",
+          "explanation": "The area is smallest when both sides are smallest:\nLB = 20.5 × 5.25 = 107.625 cm²"
         }
       ]
     },
@@ -43,13 +47,17 @@
           "text": "A circle has a radius of 5cm, to the nearest cm. Work out the lower bound for the circumference of the circle. Give your answer in terms of π.",
           "marks": 2,
           "answerType": "expression",
-          "answerUnit": "cm"
+          "answerUnit": "cm",
+          "answer": "9π",
+          "explanation": "5 cm to the nearest cm gives 4.5 ≤ radius < 5.5.\nThe circumference is smallest when the radius is smallest:\nLB = 2 × π × 4.5 = 9π cm"
         },
         {
           "text": "Work out the upper bound for the area of the circle. Give your answer in terms of π.",
           "marks": 2,
           "answerType": "expression",
-          "answerUnit": "cm²"
+          "answerUnit": "cm²",
+          "answer": "30.25π",
+          "explanation": "The area is largest when the radius is largest:\nUB = π × 5.5² = 30.25π cm²"
         }
       ]
     },
@@ -61,13 +69,17 @@
           "text": "A rectangular field has a length of 105 metres, to the nearest 5 metres, and a width of 53 metres, to the nearest metre. Work out the lower bound for the perimeter of the field.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "m"
+          "answerUnit": "m",
+          "answer": "310",
+          "explanation": "105 m to the nearest 5 m gives 102.5 ≤ length < 107.5.\n53 m to the nearest m gives 52.5 ≤ width < 53.5.\nThe perimeter is smallest when both sides are smallest:\nLB = 2 × (102.5 + 52.5) = 2 × 155 = 310 m"
         },
         {
           "text": "Work out the upper bound for the area of the field.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "m²"
+          "answerUnit": "m²",
+          "answer": "5751.25",
+          "explanation": "The area is largest when both sides are largest:\nUB = 107.5 × 53.5 = 5751.25 m²"
         }
       ]
     },
@@ -79,13 +91,17 @@
           "text": "A circle has a radius of 5.36cm, correct to 2 decimal places. Work out the lower bound for the circumference of the circle. Give your answer to 2 decimal places.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "cm"
+          "answerUnit": "cm",
+          "answer": "33.65",
+          "explanation": "5.36 cm to 2 decimal places gives 5.355 ≤ radius < 5.365.\nThe circumference is smallest when the radius is smallest:\nLB = 2 × π × 5.355 = 33.6464... = 33.65 cm (2 d.p.)"
         },
         {
           "text": "Work out the upper bound for the area of the circle. Give your answer to 3 significant figures.",
           "marks": 2,
           "answerType": "numeric",
-          "answerUnit": "cm²"
+          "answerUnit": "cm²",
+          "answer": "90.4",
+          "explanation": "The area is largest when the radius is largest:\nUB = π × 5.365² = π × 28.783225 = 90.4251... = 90.4 cm² (3 s.f.)"
         }
       ]
     },
@@ -93,59 +109,77 @@
       "number": 5,
       "totalMarks": 3,
       "text": "s = 4.15 correct to 2 decimal places, t = 2.516 correct to 3 decimal places, v = s/t. Work out the upper bound for v. Give your answer to 3 decimal places.",
-      "answerType": "numeric"
+      "answerType": "numeric",
+      "answer": "1.652",
+      "explanation": "s = 4.15 (2 d.p.) gives 4.145 ≤ s < 4.155.\nt = 2.516 (3 d.p.) gives 2.5155 ≤ t < 2.5165.\nA quotient is largest with the largest numerator and the smallest denominator:\nUB = 4.155 ÷ 2.5155 = 1.65175... = 1.652 (3 d.p.)"
     },
     {
       "number": 6,
       "totalMarks": 3,
       "text": "I = 5.92 correct to 2 decimal places, R = 12.356 correct to 3 decimal places, V = IR. Work out the upper bound for V. Give your answer to 3 decimal places.",
-      "answerType": "numeric"
+      "answerType": "numeric",
+      "answer": "73.212",
+      "explanation": "I = 5.92 (2 d.p.) gives 5.915 ≤ I < 5.925.\nR = 12.356 (3 d.p.) gives 12.3555 ≤ R < 12.3565.\nA product is largest when both factors are largest:\nUB = 5.925 × 12.3565 = 73.2122625 = 73.212 (3 d.p.)"
     },
     {
       "number": 7,
       "totalMarks": 4,
       "text": "a = 5.3 cm correct to the nearest mm, b = 8.2 cm correct to the nearest mm. Calculate the lower bound for c. You must show all your working. Give your answer to 3 significant figures.",
       "answerType": "numeric",
-      "answerUnit": "cm"
+      "answerUnit": "cm",
+      "answer": "9.69",
+      "explanation": "a = 5.3 cm to the nearest mm gives 5.25 ≤ a < 5.35.\nb = 8.2 cm to the nearest mm gives 8.15 ≤ b < 8.25.\nBy Pythagoras, c = √(a² + b²), which is smallest when a and b are smallest:\nLB = √(5.25² + 8.15²) = √(27.5625 + 66.4225) = √93.985 = 9.6945... = 9.69 cm (3 s.f.)"
     },
     {
       "number": 8,
       "totalMarks": 4,
       "text": "a = 4.1 cm correct to the nearest mm, c = 10 cm correct to the nearest cm. Calculate the lower bound for b. You must show all your working. Give your answer to 1 decimal place.",
       "answerType": "numeric",
-      "answerUnit": "cm"
+      "answerUnit": "cm",
+      "answer": "8.5",
+      "explanation": "a = 4.1 cm to the nearest mm gives 4.05 ≤ a < 4.15.\nc = 10 cm to the nearest cm gives 9.5 ≤ c < 10.5.\nBy Pythagoras, b = √(c² − a²), which is smallest when c is smallest and a is largest:\nLB = √(9.5² − 4.15²) = √(90.25 − 17.2225) = √73.0275 = 8.5456... = 8.5 cm (1 d.p.)"
     },
     {
       "number": 9,
       "totalMarks": 5,
-      "text": "E = 812 correct to 3 significant figures, T = 9.2 correct to 1 decimal place, P = E/t. By considering bounds, work out the value of P to a suitable degree of accuracy. Give a reason for your answer.",
-      "answerType": "text"
+      "text": "E = 812 correct to 3 significant figures, T = 9.2 correct to 1 decimal place, P = E/T. By considering bounds, work out the value of P to a suitable degree of accuracy. Give a reason for your answer.",
+      "answerType": "numeric",
+      "answer": "90",
+      "explanation": "E = 812 (3 s.f.) gives 811.5 ≤ E < 812.5.\nT = 9.2 (1 d.p.) gives 9.15 ≤ T < 9.25.\nLB of P = 811.5 ÷ 9.25 = 87.7297...\nUB of P = 812.5 ÷ 9.15 = 88.7978...\nThe bounds disagree at 2 s.f. (88 and 89) but both round to 90 to 1 s.f., so P = 90 to 1 significant figure."
     },
     {
       "number": 10,
       "totalMarks": 5,
       "text": "g = 12.7 correct to 3 significant figures, h = 9.294 correct to 3 decimal places, f = g/h. By considering bounds, work out the value of f to a suitable degree of accuracy. Give a reason for your answer.",
-      "answerType": "text"
+      "answerType": "numeric",
+      "answer": "1.4",
+      "explanation": "g = 12.7 (3 s.f.) gives 12.65 ≤ g < 12.75.\nh = 9.294 (3 d.p.) gives 9.2935 ≤ h < 9.2945.\nLB of f = 12.65 ÷ 9.2945 = 1.36101...\nUB of f = 12.75 ÷ 9.2935 = 1.37192...\nThe bounds disagree at 3 s.f. (1.36 and 1.37) but both round to 1.4 to 2 s.f., so f = 1.4 to 2 significant figures."
     },
     {
       "number": 11,
       "totalMarks": 3,
-      "text": "F = 25.14 N correct to 2 decimal places, A = 4.29 m² correct to 3 significant figures. By considering bounds, work out the value of p to a suitable degree of accuracy. Give a reason for your answer.",
-      "answerType": "text",
-      "answerUnit": "Nm⁻²"
+      "text": "F = 25.14 N correct to 2 decimal places, A = 4.29 m² correct to 3 significant figures. p = F/A. By considering bounds, work out the value of p to a suitable degree of accuracy. Give a reason for your answer.",
+      "answerType": "numeric",
+      "answerUnit": "Nm⁻²",
+      "answer": "5.9",
+      "explanation": "F = 25.14 N (2 d.p.) gives 25.135 ≤ F < 25.145.\nA = 4.29 m² (3 s.f.) gives 4.285 ≤ A < 4.295.\nLB of p = 25.135 ÷ 4.295 = 5.85215...\nUB of p = 25.145 ÷ 4.285 = 5.86814...\nThe bounds disagree at 3 s.f. (5.85 and 5.87) but both round to 5.9 to 2 s.f., so p = 5.9 Nm⁻² to 2 significant figures."
     },
     {
       "number": 12,
       "totalMarks": 3,
-      "text": "F = 20.81 N correct to 2 decimal places, P = 5.12 Nm⁻² correct to 3 significant figures. By considering bounds, work out the value of A to a suitable degree of accuracy. Give a reason for your answer.",
-      "answerType": "text",
-      "answerUnit": "m²"
+      "text": "F = 20.81 N correct to 2 decimal places, P = 5.12 Nm⁻² correct to 3 significant figures. A = F/P. By considering bounds, work out the value of A to a suitable degree of accuracy. Give a reason for your answer.",
+      "answerType": "numeric",
+      "answerUnit": "m²",
+      "answer": "4.1",
+      "explanation": "F = 20.81 N (2 d.p.) gives 20.805 ≤ F < 20.815.\nP = 5.12 Nm⁻² (3 s.f.) gives 5.115 ≤ P < 5.125.\nLB of A = 20.805 ÷ 5.125 = 4.05951...\nUB of A = 20.815 ÷ 5.115 = 4.06940...\nThe bounds disagree at 3 s.f. (4.06 and 4.07) but both round to 4.1 to 2 s.f., so A = 4.1 m² to 2 significant figures."
     },
     {
       "number": 13,
       "totalMarks": 5,
       "text": "v = 35.2 correct to 1 decimal place, a = 9.8 correct to 1 decimal place, s = 60.35 correct to 2 decimal places, v² = u² + 2as. Work out the upper bound for u. Give your answer to 3 significant figures.",
-      "answerType": "numeric"
+      "answerType": "numeric",
+      "answer": "8.11",
+      "explanation": "v = 35.2 (1 d.p.) gives 35.15 ≤ v < 35.25.\na = 9.8 (1 d.p.) gives 9.75 ≤ a < 9.85.\ns = 60.35 (2 d.p.) gives 60.345 ≤ s < 60.355.\nRearranging gives u = √(v² − 2as), which is largest when v is largest and a and s are smallest:\nUB = √(35.25² − 2 × 9.75 × 60.345) = √(1242.5625 − 1176.7275) = √65.835 = 8.1138... = 8.11 (3 s.f.)"
     }
   ]
 }
