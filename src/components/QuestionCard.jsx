@@ -8,6 +8,8 @@ import {
   CardHeader,
   Heading,
   Input,
+  InputGroup,
+  InputRightAddon,
   VStack,
   Text,
   Alert,
@@ -17,6 +19,20 @@ import {
   useColorModeValue,
   Divider,
 } from '@chakra-ui/react';
+
+// answerUnit is optional and only present on some topics (currently Bounds).
+const withUnit = (value, unit) => (unit ? `${value} ${unit}` : `${value}`);
+
+// Answers are stored without units, so accept a trailing unit and stray
+// whitespace rather than marking an otherwise correct answer wrong.
+const normalise = (value, unit) => {
+  let text = value.toString().trim().toLowerCase();
+  if (unit) {
+    const suffix = unit.toLowerCase();
+    if (text.endsWith(suffix)) text = text.slice(0, -suffix.length).trim();
+  }
+  return text;
+};
 
 const QuestionCard = ({ question, onNext }) => {
   const [userAnswers, setUserAnswers] = useState([]);
@@ -54,14 +70,16 @@ const QuestionCard = ({ question, onNext }) => {
     let correct;
     if (question.parts) {
       correct = question.parts.map((part, index) => 
-        userAnswers[index].toString().toLowerCase() === part.answer.toString().toLowerCase()
+        normalise(userAnswers[index], part.answerUnit) === normalise(part.answer, part.answerUnit)
       );
     } else if (Array.isArray(question.answer)) {
       correct = question.answer.map((ans, index) => 
-        userAnswers[index].toString().toLowerCase() === ans.toString().toLowerCase()
+        normalise(userAnswers[index], question.answerUnit) === normalise(ans, question.answerUnit)
       );
     } else {
-      correct = [userAnswers[0].toString().toLowerCase() === question.answer.toString().toLowerCase()];
+      correct = [
+        normalise(userAnswers[0], question.answerUnit) === normalise(question.answer, question.answerUnit),
+      ];
     }
     setIsCorrect(correct);
     setIsAnswered(true);
@@ -91,12 +109,15 @@ const QuestionCard = ({ question, onNext }) => {
             question.parts.map((part, index) => (
               <Box key={index}>
                 <Text mb={2}>{part.text}</Text>
-                <Input
-                  placeholder={`Answer for part ${index + 1}`}
-                  value={userAnswers[index]}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                  isDisabled={isAnswered}
-                />
+                <InputGroup>
+                  <Input
+                    placeholder={`Answer for part ${index + 1}`}
+                    value={userAnswers[index]}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    isDisabled={isAnswered}
+                  />
+                  {part.answerUnit && <InputRightAddon>{part.answerUnit}</InputRightAddon>}
+                </InputGroup>
               </Box>
             ))
           ) : Array.isArray(question.answer) ? (
@@ -110,12 +131,15 @@ const QuestionCard = ({ question, onNext }) => {
               />
             ))
           ) : (
-            <Input
-              placeholder="Your answer"
-              value={userAnswers[0]}
-              onChange={(e) => handleInputChange(0, e.target.value)}
-              isDisabled={isAnswered}
-            />
+            <InputGroup>
+              <Input
+                placeholder="Your answer"
+                value={userAnswers[0]}
+                onChange={(e) => handleInputChange(0, e.target.value)}
+                isDisabled={isAnswered}
+              />
+              {question.answerUnit && <InputRightAddon>{question.answerUnit}</InputRightAddon>}
+            </InputGroup>
           )}
         </VStack>
       </CardBody>
@@ -151,7 +175,7 @@ const QuestionCard = ({ question, onNext }) => {
                     <AlertDescription maxWidth="sm">
                       {isCorrect[index] 
                         ? "Great job! You've got it right." 
-                        : `The correct answer is: ${part.answer}`
+                        : `The correct answer is: ${withUnit(part.answer, part.answerUnit)}`
                       }
                     </AlertDescription>
                   </Alert>
@@ -177,7 +201,10 @@ const QuestionCard = ({ question, onNext }) => {
                 <AlertDescription maxWidth="sm">
                   {isCorrect[0] 
                     ? "Great job! You've got it right." 
-                    : `The correct answer is: ${Array.isArray(question.answer) ? question.answer.join(', ') : question.answer}`
+                    : `The correct answer is: ${withUnit(
+                        Array.isArray(question.answer) ? question.answer.join(', ') : question.answer,
+                        question.answerUnit,
+                      )}`
                   }
                 </AlertDescription>
               </Alert>

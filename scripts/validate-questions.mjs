@@ -21,20 +21,29 @@ const generateFileName = (topic) => {
     .join('');
 };
 
+// Mirrors normalise in src/components/QuestionCard.jsx.
+const normalise = (value, unit) => {
+  let text = value.toString().trim().toLowerCase();
+  if (unit) {
+    const suffix = unit.toLowerCase();
+    if (text.endsWith(suffix)) text = text.slice(0, -suffix.length).trim();
+  }
+  return text;
+};
+
 // Mirrors checkAnswer in src/components/QuestionCard.jsx.
 const checkAnswer = (question, userAnswers) => {
   if (question.parts) {
     return question.parts.map(
-      (part, index) =>
-        userAnswers[index].toString().toLowerCase() === part.answer.toString().toLowerCase(),
+      (part, index) => normalise(userAnswers[index], part.answerUnit) === normalise(part.answer, part.answerUnit),
     );
   }
   if (Array.isArray(question.answer)) {
     return question.answer.map(
-      (ans, index) => userAnswers[index].toString().toLowerCase() === ans.toString().toLowerCase(),
+      (ans, index) => normalise(userAnswers[index], question.answerUnit) === normalise(ans, question.answerUnit),
     );
   }
-  return [userAnswers[0].toString().toLowerCase() === question.answer.toString().toLowerCase()];
+  return [normalise(userAnswers[0], question.answerUnit) === normalise(question.answer, question.answerUnit)];
 };
 
 const dataFiles = readdirSync(DATA_DIR).filter((f) => f.endsWith('.json'));
